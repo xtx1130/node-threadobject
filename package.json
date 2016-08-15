@@ -1,0 +1,52 @@
+{
+  "name": "node-threadobject",
+  "version": "0.4.25",
+  "description": "extend node by c++ closures, create thread objects from js",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha thread.js"
+    ,"install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/classfellow/node-threadobject.git"
+  },
+  "engines": {
+    "node": ">= 4.0.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  },
+  "keywords": [
+    "cpu-intensive",
+    "cpu-bound task",
+    "background",
+    "backgroundjs",
+    "nodejs",
+    "libuv",
+    "c++",
+    "closure",
+    "c++ closure",
+    "thread"
+    , "ML"
+    ,"machine leanring"
+  ],
+  "author": "YouJia",
+  "license": "MIT",
+  "contributors": [
+    {
+      "name": "YouJia",
+      "email": "classfellow@qq.com"
+    }
+  ],
+  "gypfile": true,
+  "bugs": {
+    "url": "https://github.com/classfellow/node-threadobject/issues"
+  },
+  "homepage": "https://github.com/classfellow/node-threadobject#readme"
+}
