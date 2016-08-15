@@ -1,6 +1,6 @@
 # 'node-threadobject'
 
-`node-threadobject` is a package for providing ability to create new threads in js.The threads run in a loop like chrome thread mode.
+`node-threadobject` is a package for providing ability to create new threads in js.The threads run in a loop like command mode.
 
 **[Follow me on github!](https://github.com/classfellow/node-threadobject)**
 
@@ -54,4 +54,4 @@ printLog
 
 ## More descriptions
 
-This package provides a good way to extend node ability.I have introduced a similar model with chrome thread programming framework, which makes it become more easier for c++ package.
+This package provides a good way to extend node ability.It give you ability to have thread objects.
