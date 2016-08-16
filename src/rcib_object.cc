@@ -187,6 +187,7 @@ namespace rcib {
   }
 
   void RcibHelper::Terminate(){
+    bterminating_ = true;
   }
 
   void RcibHelper::DelayByMil(async_req * req){
@@ -213,7 +214,8 @@ namespace rcib {
     cprocessed_++;
   }
 
-  void RcibHelper::InitPrint(const std::string & path, async_req * req, size_t bysec, base::Thread* thr){
+  void RcibHelper::InitPrint(const std::string & path, async_req * req, 
+                                size_t bysec, base::Thread* thr){
     assert(thr);
     rcib::PrintHelper * t = NULL;
     bool fis = false;

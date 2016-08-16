@@ -169,7 +169,6 @@ static void CloseLog(const v8::FunctionCallbackInfo<v8::Value>& args) {
 }
 
 void Terminate(const v8::FunctionCallbackInfo<v8::Value>& args) {
-  bterminating_ = true;
   RcibHelper::GetInstance()->Terminate();
 }
 
