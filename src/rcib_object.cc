@@ -96,7 +96,7 @@ namespace rcib {
     v8::Local<v8::Value> argv[2];
 
     if (-1 == req->result || !req->out){
-      printf("error: %s\n", req->error.c_str());
+      //printf("error: %s\n", req->error.c_str());
       argv[0] = node::UVException(-1, req->error.c_str(), req->func_name_.c_str(), "");
     }else if (ONE == req->out){
       req->out = nullptr;
