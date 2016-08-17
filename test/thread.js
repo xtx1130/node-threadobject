@@ -1,16 +1,18 @@
 'use strict';
 let path = require('path');
 let assert = require('assert');
+let Thread = require('../lib/node-threadobject');
 
 describe('exports', function () {
   describe('.Thread', function () {
     let filename = path.join(__dirname
             , 'file_' + new Date().getTime() + '.dat');
 
-    let thread = require('../lib/node-threadobject')(); 
+    let thread = new Thread(); 
 
     it('should create a new thread and can be closed', function () {
-      let thread = require('../lib/node-threadobject')();
+      // the same new Thread();
+      let thread = Thread();
       assert.equal(thread.isRunning(), true);
       thread.close();
       assert.equal(thread.isRunning(), false);
@@ -87,13 +89,12 @@ describe('exports', function () {
 
     it('should after 2 sec run the callback', function(done){
       this.timeout(2500);
-      var thread = require('../lib/node-threadobject')();
+      var thread = new Thread();
       thread.delayBySec(2, function(err){
         assert.ifError(err);
         thread.close();
         done();
       })
     });
-
   });
 });

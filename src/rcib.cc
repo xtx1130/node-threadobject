@@ -184,13 +184,13 @@ inline void NODE_CREATE_FUNCTION(const TypeName& target) {
     //Add more func-s h-e-r-e ... ->rcib.cc
     NODE_SET_PROTOTYPE_METHOD(t, "close", Close);
     NODE_SET_PROTOTYPE_METHOD(t, "isRunning", IsRunning);
-    NODE_SET_PROTOTYPE_METHOD(t, "delayByMil", DelayByMil);
-    NODE_SET_PROTOTYPE_METHOD(t, "delayBySec", DelayBySec);
-    NODE_SET_PROTOTYPE_METHOD(t, "delayByMin", DelayByMin);
-    NODE_SET_PROTOTYPE_METHOD(t, "delayByHour", DelayByHour);
-    NODE_SET_PROTOTYPE_METHOD(t, "initPrint", InitPrint);
-    NODE_SET_PROTOTYPE_METHOD(t, "printLog", PrintLog);
-    NODE_SET_PROTOTYPE_METHOD(t, "bytes", LogSize);
+    NODE_SET_PROTOTYPE_METHOD(t, "delayByMil_i", DelayByMil);
+    NODE_SET_PROTOTYPE_METHOD(t, "delayBySec_i", DelayBySec);
+    NODE_SET_PROTOTYPE_METHOD(t, "delayByMin_i", DelayByMin);
+    NODE_SET_PROTOTYPE_METHOD(t, "delayByHour_i", DelayByHour);
+    NODE_SET_PROTOTYPE_METHOD(t, "initPrint_i", InitPrint);
+    NODE_SET_PROTOTYPE_METHOD(t, "printLog_i", PrintLog);
+    NODE_SET_PROTOTYPE_METHOD(t, "bytes_i", LogSize);
     NODE_SET_PROTOTYPE_METHOD(t, "closeLog", CloseLog);
 
     target->Set(v8::String::NewFromUtf8(isolate, "THREAD")

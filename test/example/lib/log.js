@@ -8,10 +8,9 @@ var app = module.exports = {};
 
 
 // three threads are being created;
-var thread1 = Thread();
-thread1.bysec = 4;
-var thread2 = Thread();
-var thread3 = Thread();
+var thread1 = new Thread();
+var thread2 = new Thread();
+var thread3 = new Thread();
 
  function GetTime(){
   return  ('' + new Date().getTime());
