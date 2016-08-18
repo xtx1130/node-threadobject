@@ -12,7 +12,7 @@ describe('exports', function () {
 
     it('should create a new thread and can be closed', function () {
       // the same new Thread();
-      let thread = Thread();
+      let thread = new Thread();
       assert.equal(thread.isRunning(), true);
       thread.close();
       assert.equal(thread.isRunning(), false);
