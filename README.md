@@ -10,14 +10,18 @@
 > Windows & Linux
 
 ## Compile & Link
-> npm install -g node-gyp
+```
+npm install -g node-gyp
 node-gyp configure
 node-gyp build (or **sudo node-gyp build**) 
+```
 
 ## How it works
 
 ## Usage
+```
 npm install node-threadobject (or **sudo npm install node-threadobject**)
+```
 
 ## Example:
 
@@ -63,7 +67,7 @@ fs.readFile('thread.js', function(err, data) {
 
 ```
 ## More API:
-> 
+```
 close
 isRunning
 delayByMil
@@ -73,6 +77,7 @@ delayByHour
 initPrint
 printLog
 sha256
+```
 
 ## Other example
 ```js
