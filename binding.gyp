@@ -21,6 +21,9 @@
                             'src/rcib/Event/WaitableEvent.cc',
                             'src/rcib/time/time.cc'
                             ,'src/rcib/roler.cc'
+                            ,'src/hash/hash.h'
+                            ,'src/hash/sha-256/sha-256.cc'
+                            ,'src/hash/sha-256/sha-256.h'
                         ],
                         'libraries':[],
                         'cflags':[]
@@ -42,6 +45,7 @@
                              'src/rcib/Event/WaitableEvent.cc',
                              'src/rcib/time/time.cc'
                              ,'src/rcib/roler.cc'
+                             ,'src/hash/sha-256/sha-256.cc'
                              ],
                              'libraries':[],
                              'cflags':[]

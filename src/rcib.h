@@ -16,16 +16,19 @@ namespace rcib {
     uv_async_t handle_;
   };
 
+  enum WORKTYPE{
+    TYPE_START = 0,
+    TYPE_SHA_256
+  };
+
   struct async_req {
-    const char * file_content_;
-    std::string func_name_;
-    std::string param_;
     std::string error;
     char *out;
     ssize_t result;
     v8::Isolate* isolate;
     v8::Persistent<v8::Function> callback;
     bool finished;
+    WORKTYPE w_t;
   };
 
   class ArrayBufferAllocator : public v8::ArrayBuffer::Allocator {
@@ -56,6 +59,8 @@ namespace rcib {
       void PrintLogs(const std::string & info, async_req * req, base::Thread* thr);
       void LogSize(async_req * req, base::Thread* thr);
       void CloseLog(base::Thread* thr);
+
+      void SHA256(const HashData& data, async_req * req);
 
       inline void Push(async_req *itme) {
         pending_queue_.push_back(itme);
@@ -167,9 +172,17 @@ namespace rcib {
   INT64 delayed = (V)[0]->ToUint32()->Value(); \
   INITHELPER(V, 1)
 
-#define   NOTH     if (bterminating_) return;
+#define   NOTH     if (bterminating_) { \
+                      return; \
+                   }
+
 #define   THREAD     base::Thread* thr = furThread_.Get().Get(args.Holder()); \
-                     if (!thr) return; \
+                     if (!thr) { \
+                       args.GetReturnValue().Set(false);  \
+                       return; \
+                     }
+
+#define RETURN_TRUE  args.GetReturnValue().Set(true);
 
 #define GETATTRINUM(N, O, S) size_t N = -1;  \
    do{  \

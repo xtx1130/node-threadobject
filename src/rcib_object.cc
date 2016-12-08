@@ -54,8 +54,9 @@
 #include "rcib/roler.h"
 #include "rcib/Thread.h"
 #include "rcib/at_exist.h"
-
+#include "hash/hash.h"
 #include "rcib.h"
+#include "hash/sha-256/sha-256.h"
 
 #define ONE ((char*)1)
 #define TWO ((char *)2)
@@ -96,24 +97,25 @@ namespace rcib {
     v8::Local<v8::Value> argv[2];
 
     if (-1 == req->result || !req->out){
-      //printf("error: %s\n", req->error.c_str());
-      argv[0] = node::UVException(-1, req->error.c_str(), req->func_name_.c_str(), "");
+      argv[0] = node::UVException(-1, req->error.c_str());
     }else if (ONE == req->out){
       req->out = nullptr;
-      // error value is empty or null for non-error.
       argv[0] = v8::Null(isolate);
       argc = 2;
       argv[1] = v8::String::NewFromUtf8(isolate, prtFIN);
     }else if (TWO == req->out){
       req->out = nullptr;
-      // error value is empty or null for non-error.
       argv[0] = v8::Null(isolate);
       argc = 2;
       argv[1] = v8::Uint32::NewFromUnsigned(isolate, static_cast<size_t>(req->result));
-    } else {
-      // error value is empty or null for non-error.
+    } else if (TYPE_SHA_256 == req->w_t) {
       argv[0] = v8::Null(isolate);
-      // the data to pass is a string , use json
+      argc = 2;
+      HashRe *hre = reinterpret_cast<HashRe *>(req->out);
+      argv[1] = node::Encode(isolate, reinterpret_cast<char *>(hre->_data), hre->_len, hre->_encoding);
+      free(hre->_data);  // to free mem
+    } else {
+      argv[0] = v8::Null(isolate);
       argc = 2;
       char *data = (char *)req->out;
       argv[1] = v8::String::NewFromUtf8(isolate, data);
@@ -175,6 +177,7 @@ namespace rcib {
     req->finished = false;
     req->out = nullptr;
     req->result = 0;
+    req->w_t = TYPE_START;
     RcibHelper::GetInstance()->Push(req);
   }
 
@@ -328,6 +331,27 @@ namespace rcib {
     }
     Uv_Send(req, (uv_async_t*)handle_);
     cprocessed_++;
+  }
+
+  void RcibHelper::SHA256(const HashData & data, async_req * req){
+    const char *p = nullptr;
+    size_t plen = 0;
+    if (-1 == data._plen){
+      p = data._data.c_str();
+      plen = data._data.size();
+    } else{
+      p = data._p;
+      plen = data._plen;
+    }
+    sha256_context ctx;
+    HashRe *hre = reinterpret_cast<HashRe *>(req->out);
+    hre->_len = 32 * sizeof(uint8_t);
+    hre->_data = (uint8_t *)malloc(hre->_len);
+    sha256_init(&ctx);
+    sha256_hash(&ctx, (uint8_t *)p, plen);
+    sha256_done(&ctx, hre->_data);
+    req->result = hre->_len;
+    Uv_Send(req, (uv_async_t*)handle_);
   }
 
   void RcibHelper::Uv_Send(async_req* req, uv_async_t* h){

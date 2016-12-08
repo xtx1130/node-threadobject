@@ -54,7 +54,7 @@
 #include "rcib/roler.h"
 #include "rcib/Thread.h"
 #include "rcib/at_exist.h"
-
+#include "hash/hash.h"
 #include "rcib.h"
 
  namespace rcib{
