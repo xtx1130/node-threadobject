@@ -183,8 +183,9 @@ static void Sha256(const v8::FunctionCallbackInfo<v8::Value>& args) {
     data._plen = node::Buffer::Length(args[0]);
   }
   req->w_t = TYPE_SHA_256;
-  req->out = (char *)malloc(sizeof(HashRe));
+  req->out = (char *)calloc(1, sizeof(HashRe));
   HashRe *hre = (HashRe *)(req->out);
+  hre->Clean = &RcibHelper::HashClean;
   GETATTRINUM(encoding, args.Holder(), encoding);
   if (-1 == encoding || 0 == encoding){
     hre->_encoding = node::HEX;
@@ -214,7 +215,13 @@ static void Sha256(const v8::FunctionCallbackInfo<v8::Value>& args) {
   }
   thr->message_loop()->PostTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
     &RcibHelper::SHA256, data, req));
+  RcibHelper::GetInstance()->INC();
   RETURN_TRUE
+}
+
+static void QueueNum(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  uint32_t num = static_cast<uint32_t>(RcibHelper::GetInstance()->taskNum());
+  args.GetReturnValue().Set(num);
 }
 
 void Terminate(const v8::FunctionCallbackInfo<v8::Value>& args) {
@@ -241,7 +248,7 @@ inline void NODE_CREATE_FUNCTION(const TypeName& target) {
     NODE_SET_PROTOTYPE_METHOD(t, "printLog_i", PrintLog);
     NODE_SET_PROTOTYPE_METHOD(t, "bytes_i", LogSize);
     NODE_SET_PROTOTYPE_METHOD(t, "closeLog", CloseLog);
-
+    NODE_SET_PROTOTYPE_METHOD(t, "quen", QueueNum);
     NODE_SET_PROTOTYPE_METHOD(t, "sha256", Sha256);
 
     target->Set(v8::String::NewFromUtf8(isolate, "THREAD")

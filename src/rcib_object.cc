@@ -79,7 +79,7 @@ namespace rcib {
 
   // constructor
   RcibHelper::RcibHelper()
-    :cprocessed_(0), handle_(nullptr){
+    :cprocessed_(0), handle_(nullptr), tasks_(0){
   }
   //static
   RcibHelper* RcibHelper::GetInstance(){
@@ -113,7 +113,8 @@ namespace rcib {
       argc = 2;
       HashRe *hre = reinterpret_cast<HashRe *>(req->out);
       argv[1] = node::Encode(isolate, reinterpret_cast<char *>(hre->_data), hre->_len, hre->_encoding);
-      free(hre->_data);  // to free mem
+      assert(hre->Clean);
+      (*(hre->Clean))(hre->_data);
     } else {
       argv[0] = v8::Null(isolate);
       argc = 2;
@@ -179,6 +180,11 @@ namespace rcib {
     req->result = 0;
     req->w_t = TYPE_START;
     RcibHelper::GetInstance()->Push(req);
+  }
+  //static
+  void RcibHelper::HashClean(void *data){
+    free(data);  // to free mem
+    RcibHelper::GetInstance()->DEC();
   }
 
   void RcibHelper::Init(){
@@ -352,6 +358,7 @@ namespace rcib {
     sha256_done(&ctx, hre->_data);
     req->result = hre->_len;
     Uv_Send(req, (uv_async_t*)handle_);
+    cprocessed_++;
   }
 
   void RcibHelper::Uv_Send(async_req* req, uv_async_t* h){

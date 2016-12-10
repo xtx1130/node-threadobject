@@ -48,6 +48,7 @@ namespace rcib {
       static void DoNopAsync(async_req* r, size_t size);
       static void EMark(async_req* req, std::string message);
       static void init_async_req(async_req *req);
+      static void HashClean(void *data);
 
       void Init();
       void Terminate();
@@ -73,6 +74,15 @@ namespace rcib {
         return item;
       }
       inline void PickFinished();
+      inline void INC() {
+        ++tasks_;
+      }
+      inline void DEC(){
+        --tasks_;
+      }
+      inline size_t taskNum(){
+        return tasks_;
+      }
     private:
       void Fflush(base::Thread* thr);
       void Uv_Send(async_req* req, uv_async_t* h);
@@ -80,6 +90,7 @@ namespace rcib {
       std::list<async_req *> working_queue_;
       async_t_handle *handle_;
       INT64 cprocessed_;
+      size_t tasks_;
   };
 
   class furOfThread {

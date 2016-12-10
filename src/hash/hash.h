@@ -22,6 +22,7 @@ struct HashRe {
   uint8_t * _data;
   ssize_t _len;
   node::encoding _encoding;
+  void(*Clean)(void *);
 };
 
 #endif
