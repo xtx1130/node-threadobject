@@ -1,6 +1,6 @@
 {
   "name": "node-threadobject",
-  "version": "0.4.33",
+  "version": "0.4.34",
   "description": "extend node by c++ closures, create thread objects from js",
   "main": "index.js",
   "directories": {
