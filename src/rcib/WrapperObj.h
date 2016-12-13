@@ -48,7 +48,7 @@ public:
   virtual void Release() const = 0;
   virtual bool IsWeakPtr() const = 0;
 };
-//一般情况
+
 template<typename T>
 class NormalWrapper : public ObjWrapper<T> {
 public:
@@ -60,8 +60,6 @@ public:
 private:
   T * ptr_;
 };
-
-//重载的支持 Unretained
 
 template <typename T>
 class UnretainedWrapper : public ObjWrapper<T> {

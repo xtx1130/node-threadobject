@@ -712,7 +712,7 @@ namespace base{
     fastdelegate::Task<void> *task = new fastdelegate::Task<void>;
     task->SetClass(fastdelegate::MakeDelegateEntity(obj, func, p1, p2, p3, p4, p5));
     return task;
-  } 
+  }
 
 } //end base
 
