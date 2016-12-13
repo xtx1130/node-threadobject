@@ -8,11 +8,16 @@
 
 **[Follow me on github!](https://github.com/classfellow/node-threadobject)**
 
-## Platform Support
+## 支持的操作系统(Platform Support)
 > Windows & Linux
 
-## Compile & Link
+## 编译链接(Compile & Link)
 ```
+先全局安装 node-gyp
+在工程根目录下运行 node-gyp configure
+在工程根目录下运行 node-gyp build
+（编译过程大概需要 10s 左右，如果提示无权访问目录，请尝试 sudo node-gyp rebuild）
+
 npm install -g node-gyp
 node-gyp configure
 node-gyp build (or  **sudo node-gyp rebuild** )
@@ -20,16 +25,16 @@ node-gyp build (or  **sudo node-gyp rebuild** )
 
 ## How it works
 
-## Add more computational type functions
+## 增加更多的计算型函数 (Add more computational type functions)
 
-hash 是一个例子，它是一个无状态型的计算任务，file 是另外一个例子。一般来讲，增加新的计算型函数不需要修改 rcib(run codes in background) 目录里面的代码。 
+有充足的空间，你可以很方便的添加新函数。这意味着一般来讲，只需要增加新的文件，然后将头文件增加到rcib.h中。hash 是一个例子，它是一个无状态型的计算任务，file 是另外一个例子。一般来讲，增加新的计算型函数不需要修改 rcib(run codes in background) 目录里面的代码。 
 
-## Usage
+## 安装使用(Usage)
 ```
 npm install node-threadobject (or  **sudo npm install node-threadobject** )
 ```
 
-## Example:
+## 例子(Example)
 
 **将一个定时器抛给线程对象，等待2秒钟后，回到主线程执行回调函数。支持以小时为单位的大定时器**
 ```js
@@ -73,7 +78,7 @@ fs.readFile('thread.js', function(err, data) {
   console.log('正在排队处理的任务数：' + thread.numOfTasks());
 });
 ```
-## More API:
+## 已包含的函数 (APIs)
 ```
 close  //同步的关闭线程
 isRunning  //返回线程对象的线程是否运行(存在)
@@ -97,6 +102,6 @@ numOfTasks  //线程队列里CPU密集型任务个数
 
 This package provides a good way to extend node ability.It give you ability to have thread objects.
 
-## License
+## 证书 (License)
 
 BSD
