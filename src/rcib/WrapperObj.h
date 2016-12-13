@@ -19,21 +19,14 @@
 
 /****************************************************************************************
 **
-* @file     FastDelegateImpl.h
-
-* @brief    function
-            member function
-            weakptr
-            unretained
-            refcount
-
+* @file     WrapperObj.h
 
   @example  
 
 * @author   classfellow@qq.com
-* @date     2013-10 
-* @updated  2014-10-21 weakptr£¬Unretained, refcount
-* @warning  
+* @date     2013-10
+* @warning
+* @license  BSD 
 **           
 ****************************************************************************************/
 
@@ -55,7 +48,7 @@ public:
   virtual void Release() const = 0;
   virtual bool IsWeakPtr() const = 0;
 };
-//Ò»°ãÇé¿ö
+//ä¸€èˆ¬æƒ…å†µ
 template<typename T>
 class NormalWrapper : public ObjWrapper<T> {
 public:
@@ -68,7 +61,7 @@ private:
   T * ptr_;
 };
 
-//ÖØÔØµÄÖ§³ÖUnretain
+//é‡è½½çš„æ”¯æŒ Unretained
 
 template <typename T>
 class UnretainedWrapper : public ObjWrapper<T> {

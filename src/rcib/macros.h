@@ -17,7 +17,9 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
  * IN THE SOFTWARE.
  */
-
+/* 
+   "license": "BSD"
+*/
 #ifndef MUL_MACROS___
 #define MUL_MACROS___
 

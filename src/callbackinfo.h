@@ -1,3 +1,7 @@
+/* 
+   "license": "BSD"
+*/
+
 #ifndef CALLBACKINFO_
 #define CALLBACKINFO_
 

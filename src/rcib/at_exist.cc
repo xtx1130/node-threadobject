@@ -18,6 +18,10 @@
  * IN THE SOFTWARE.
  */
 
+/* 
+   "license": "BSD"
+*/
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -33,6 +37,7 @@
 #include "util_tools.h"
 #include "at_exist.h"
 
+//
 extern base::AtExitManager* g_top_manager;
 
 namespace base{

@@ -18,6 +18,10 @@
  * IN THE SOFTWARE.
  */
 
+/* 
+   "license": "BSD"
+*/
+
 #ifndef MUL_AT_EXIST_
 #define MUL_AT_EXIST_
 

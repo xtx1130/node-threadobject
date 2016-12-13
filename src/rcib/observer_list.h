@@ -18,6 +18,10 @@
  * IN THE SOFTWARE.
  */
 
+/* 
+   "license": "BSD"
+*/
+
 #ifndef MUL_OBSERVER_LIST_
 #define MUL_OBSERVER_LIST_
 

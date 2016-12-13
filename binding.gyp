@@ -21,9 +21,16 @@
                             'src/rcib/Event/WaitableEvent.cc',
                             'src/rcib/time/time.cc'
                             ,'src/rcib/roler.cc'
-                            ,'src/hash/hash.h'
+                            ,'src/hash/hash.cc'
                             ,'src/hash/sha-256/sha-256.cc'
+                            ,'src/file/file.cc'
+                            ,'src/delayed/delayed.cc'
+                            ,'src/rcib.h'
+                            ,'src/rcib_object.h'
+                            ,'src/hash/hash.h'
                             ,'src/hash/sha-256/sha-256.h'
+                            ,'src/file/file.h'
+                            ,'src/delayed/delayed.h'
                         ],
                         'libraries':[],
                         'cflags':[]
@@ -45,7 +52,10 @@
                              'src/rcib/Event/WaitableEvent.cc',
                              'src/rcib/time/time.cc'
                              ,'src/rcib/roler.cc'
+                             ,'src/hash/hash.cc'
                              ,'src/hash/sha-256/sha-256.cc'
+                             ,'src/file/file.cc'
+                             ,'src/delayed/delayed.cc'
                              ],
                              'libraries':[],
                              'cflags':[]

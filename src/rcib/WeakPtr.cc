@@ -28,7 +28,8 @@
 * @author   classfellow@qq.com
 * @date     2013-10 
 * @updated  2014-10-21 
-* @warning  
+* @warning
+* @license  BSD
 **           
 ****************************************************************************************/
 #ifdef _WIN32

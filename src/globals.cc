@@ -18,43 +18,10 @@
  * IN THE SOFTWARE.
  */
 
-#include <node.h>
-//#include <libplatform/libplatform.h>
-#include <v8.h>
-#include <uv.h>
-#if defined _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
+/* 
+   "license": "BSD"
+*/
 
-#include <malloc.h>
-#include <stdlib.h>
-#include <string>
-#include <memory>
-#include <list>
-#include <queue>
-#include <stack>
-#include <map>
-#include "rcib/macros.h"
-#include "rcib/aligned_memory.h"
-#include "rcib/lazy_instance.h"
-#include "rcib/ref_counted.h"
-#include "rcib/WrapperObj.h"
-#include "rcib/WeakPtr.h"
-#include "rcib/FastDelegateImpl.h"
-#include "rcib/time/time.h"
-#include "rcib/MessagePump.h"
-#include "rcib/util_tools.h"
-#include "rcib/Event/WaitableEvent.h"
-#include "rcib/PendingTask.h"
-#include "rcib/observer_list.h"
-#include "rcib/MessagePumpDefault.h"
-#include "rcib/MessageLoop.h"
-#include "rcib/roler.h"
-#include "rcib/Thread.h"
-#include "rcib/at_exist.h"
-#include "hash/hash.h"
 #include "rcib.h"
 
  namespace rcib{

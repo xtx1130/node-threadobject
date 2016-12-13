@@ -2,6 +2,10 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+/* 
+   "license": "BSD"
+*/
+
 #ifndef MUL_REF_COUNTED_
 #define MUL_REF_COUNTED_
 

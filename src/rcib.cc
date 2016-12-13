@@ -1,48 +1,13 @@
-/**
-  author: Banz 
-  email:classfellow@qq.com
-  license: MIT
-**/
+/* 
+   "license": "BSD"
+*/
 
-#include <node.h>
-#include <v8.h>
-#include <uv.h>
-#if defined _WIN32
-#include <windows.h>
-#else
-#include <unistd.h>
-#endif
-
-#include <node_buffer.h>
-#include <malloc.h>
-#include <stdlib.h>
-#include <string>
-#include <memory>
-#include <list>
-#include <queue>
-#include <stack>
-#include <map>
-#include "rcib/macros.h"
-#include "rcib/aligned_memory.h"
-#include "rcib/lazy_instance.h"
-#include "rcib/ref_counted.h"
-#include "rcib/WrapperObj.h"
-#include "rcib/WeakPtr.h"
-#include "rcib/FastDelegateImpl.h"
-#include "rcib/time/time.h"
-#include "rcib/MessagePump.h"
-#include "rcib/util_tools.h"
-#include "rcib/Event/WaitableEvent.h"
-#include "rcib/PendingTask.h"
-#include "rcib/observer_list.h"
-#include "rcib/MessagePumpDefault.h"
-#include "rcib/MessageLoop.h"
-#include "rcib/roler.h"
-#include "rcib/Thread.h"
-#include "rcib/at_exist.h"
-#include "callbackinfo.h"
-#include "hash/hash.h"
 #include "rcib.h"
+#include "callbackinfo.h"
+
+#include "hash/hash.h"
+#include "delayed/delayed.h"
+#include "file/file.h"
 
 using namespace rcib;
 
@@ -73,8 +38,8 @@ static void IsRunning(const v8::FunctionCallbackInfo<v8::Value>& args){
 static void DelayByMil(const v8::FunctionCallbackInfo<v8::Value>& args){
   THREAD;
   DELAY_TASK_COMMON(args);
-  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::DelayByMil, req),
+  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(DelayedHelper::GetInstance()),
+    &DelayedHelper::DelayByMil, req),
     base::TimeDelta::FromMilliseconds(delayed));
 
   RETURN_TRUE
@@ -83,8 +48,8 @@ static void DelayByMil(const v8::FunctionCallbackInfo<v8::Value>& args){
 static void DelayBySec(const v8::FunctionCallbackInfo<v8::Value>& args){
   THREAD;
   DELAY_TASK_COMMON(args);
-  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::DelayBySec, req),
+  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(DelayedHelper::GetInstance()),
+    &DelayedHelper::DelayBySec, req),
     base::TimeDelta::FromSeconds(delayed));
 
   RETURN_TRUE
@@ -93,8 +58,8 @@ static void DelayBySec(const v8::FunctionCallbackInfo<v8::Value>& args){
 static void DelayByMin(const v8::FunctionCallbackInfo<v8::Value>& args){
   THREAD;
   DELAY_TASK_COMMON(args);
-  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::DelayByMin, req),
+  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(DelayedHelper::GetInstance()),
+    &DelayedHelper::DelayByMin, req),
     base::TimeDelta::FromMinutes(delayed));
   RETURN_TRUE
 }
@@ -102,8 +67,8 @@ static void DelayByMin(const v8::FunctionCallbackInfo<v8::Value>& args){
 static void DelayByHour(const v8::FunctionCallbackInfo<v8::Value>& args){
   THREAD;
   DELAY_TASK_COMMON(args);
-  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::DelayByHour, req),
+  thr->message_loop()->PostDelayedTask(base::Bind(base::Unretained(DelayedHelper::GetInstance()),
+    &DelayedHelper::DelayByHour, req),
     base::TimeDelta::FromHours(delayed));
   RETURN_TRUE
 }
@@ -117,15 +82,16 @@ static void InitPrint(const v8::FunctionCallbackInfo<v8::Value>& args){
   GETATTRINUM(bysec, args.Holder(), bysec);
 
   if (bysec == -1){
-    bysec = 10;
+    //def 5s
+    bysec = 5;
   }
 
   v8::String::Utf8Value path(args[0]);
   std::string strpath = *path;
   THREAD
   INITHELPER(args,1);
-  thr->message_loop()->PostTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::InitPrint, strpath, req, bysec, thr));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(FileHelper::GetInstance()),
+    &FileHelper::InitPrint, strpath, req, bysec, thr));
   RETURN_TRUE
 }
 
@@ -140,8 +106,8 @@ static void PrintLog(const v8::FunctionCallbackInfo<v8::Value>& args) {
   std::string strinfo = *info;
   THREAD
   INITHELPER(args,1);
-  thr->message_loop()->PostTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::PrintLogs, strinfo, req, thr));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(FileHelper::GetInstance()),
+    &FileHelper::PrintLogs, strinfo, req, thr));
   RETURN_TRUE
 }
 
@@ -152,16 +118,16 @@ static void LogSize(const v8::FunctionCallbackInfo<v8::Value>& args) {
   }
   THREAD
   INITHELPER(args, 0);
-  thr->message_loop()->PostTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-  &RcibHelper::LogSize, req, thr));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(FileHelper::GetInstance()),
+    &FileHelper::LogSize, req, thr));
   RETURN_TRUE
 }
 
 static void CloseLog(const v8::FunctionCallbackInfo<v8::Value>& args) {
   ISOLATE(args)
   THREAD
-  thr->message_loop()->PostTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::CloseLog, thr));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(FileHelper::GetInstance()),
+  &FileHelper::CloseLog, thr));
   RETURN_TRUE
 }
 
@@ -185,7 +151,7 @@ static void Sha256(const v8::FunctionCallbackInfo<v8::Value>& args) {
   req->w_t = TYPE_SHA_256;
   req->out = (char *)calloc(1, sizeof(HashRe));
   HashRe *hre = (HashRe *)(req->out);
-  hre->Clean = &RcibHelper::HashClean;
+  hre->Clean = &HashHelper::HashClean;
   GETATTRINUM(encoding, args.Holder(), encoding);
   if (-1 == encoding || 0 == encoding){
     hre->_encoding = node::HEX;
@@ -213,8 +179,8 @@ static void Sha256(const v8::FunctionCallbackInfo<v8::Value>& args) {
       break;
     }
   }
-  thr->message_loop()->PostTask(base::Bind(base::Unretained(RcibHelper::GetInstance()),
-    &RcibHelper::SHA256, data, req));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(HashHelper::GetInstance()),
+    &HashHelper::SHA256, data, req));
   RcibHelper::GetInstance()->INC();
   RETURN_TRUE
 }

@@ -4,7 +4,7 @@
 
 在双核环境下，一个线程对象使得其与主线程各运行于一个 CPU。在这种情况下，如果有两个线程对象处理计算任务，则主线程有 66% 的机会争取到运行。与使用线程池相比，能够精确预期。
 
-`node-threadobject` is a package for providing ability to create new threads in js.The threads run in a loop like command mode.
+`node-threadobject` is a package for providing ability to create new threads in js. It helps you consciously assign cpu-bound tasks to a limited number of CPUs.
 
 **[Follow me on github!](https://github.com/classfellow/node-threadobject)**
 
@@ -19,6 +19,10 @@ node-gyp build (or  **sudo node-gyp build** )
 ```
 
 ## How it works
+
+## Add more computational type functions
+
+hash 是一个例子，它是一个无状态型的计算任务，file 是另外一个例子。一般来讲，增加新的计算型函数不需要修改 rcib(run codes in background) 目录里面的代码。 
 
 ## Usage
 ```
