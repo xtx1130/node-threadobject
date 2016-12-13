@@ -2,7 +2,9 @@
 
 在 Js 代码中创建线程对象，执行 CPU 密集型函数，例如计算大文件 HASH，加密解密等任务。可扩展 C++ 模块的处理函数，处理不同的复杂计算任务。在多核环境下，线程对象有助于更好的分配 node 集群中各个线程的 CPU 占用，以可控的方式减少线程等待和阻塞主线程。
 
-在双核环境下，一个线程对象使得其与主线程各运行于一个 CPU。在这种情况下，如果有两个线程对象处理计算任务，则主线程有 66% 的机会争取到运行。与使用线程池相比，能够精确预期。
+例如，在双核环境下，一个线程对象使得其与主线程各运行于一个 CPU。在这种情况下，如果有两个线程对象处理计算任务，则主线程有 66% 的机会争取到运行。与使用线程池相比，能够精确预期。
+
+在具体的场景中，例如使用 node 构建区块链的 P2P 网络，协议使得主线程面临着 CPU 计算的压力，比方说计算大块数据的 HASH。未经扩展的 node 在此类情景下可能遇到瓶颈。node-threadobject 是解决此类问题的通用方法。
 
 `node-threadobject` is a package for providing ability to create new threads in js. It helps you consciously assign cpu-bound tasks to a limited number of CPUs.
 
