@@ -30,8 +30,11 @@ node-gyp build (or  **sudo node-gyp rebuild** )
 ## 增加更多的计算型函数 (Add more computational type functions)
 
 有充足的空间，你可以很方便的添加新函数。这意味着一般来讲，只需要增加新的文件，然后将头文件增加到rcib.h中。hash 是一个例子，它是一个无状态型的计算任务，file 是另外一个例子。一般来讲，增加新的计算型函数不需要修改 rcib(run codes in background) 目录里面的代码。
+
 src/rcib 这个目录下的代码经过精心构建，一般来讲，扩展本模块不需要动里面的东西。
+
 src/file 这是一个有状态计算型任务的范例。
+
 src/hash 这是一个无状态计算任务的范例。
 
 ## 安装使用(Usage)
