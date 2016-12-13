@@ -15,7 +15,7 @@
 ```
 npm install -g node-gyp
 node-gyp configure
-node-gyp build (or  **sudo node-gyp build** ) 
+node-gyp build (or  **sudo node-gyp rebuild** )
 ```
 
 ## How it works
@@ -96,3 +96,7 @@ numOfTasks  //线程队列里CPU密集型任务个数
 ## More descriptions
 
 This package provides a good way to extend node ability.It give you ability to have thread objects.
+
+## License
+
+BSD
