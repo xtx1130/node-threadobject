@@ -50,7 +50,9 @@ namespace rcib {
 
   enum WORKTYPE{
     TYPE_START = 0,
-    TYPE_SHA_256
+    TYPE_SHA_256,
+    TYPE_SHA = TYPE_SHA_256,
+    TYPE_END
   };
 
   struct async_req {

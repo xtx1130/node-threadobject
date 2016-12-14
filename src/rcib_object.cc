@@ -57,7 +57,7 @@ namespace rcib {
       argv[1] = v8::Uint32::NewFromUnsigned(isolate, static_cast<size_t>(req->result));
     } else {
       switch (req->w_t) {
-        case TYPE_SHA_256: {
+      case TYPE_SHA: {
           argv[0] = v8::Null(isolate);
           argc = 2;
           HashRe *hre = reinterpret_cast<HashRe *>(req->out);

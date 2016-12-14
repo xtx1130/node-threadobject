@@ -74,19 +74,20 @@ result:
 **在另一个线程中计算一个文件的 HASH 值**
 ```js
 /*
- see test/sha-256.js
+ see test/sha2.js
 */
 'use strict';
 let path = require('path');
 var fs = require('fs');
 let assert = require('assert');
 let Thread = require('../lib/node-threadobject');
-
 var thread = new Thread();
+thread.set_encode('base64');
 
 console.log('HASH 计算之前');
 fs.readFile('thread.js', function(err, data) {
-  thread.sha256(data, function(err, data){
+  thread.sha2({data, type: 256}, function(err, data){
+    if(err) return console.error(err);
     console.log('HASH 计算结果');
     console.log(data);
     console.log('HASH 计算之后');
@@ -100,12 +101,43 @@ result:
     HASH 计算之前
     正在排队处理的任务数：1
     HASH 计算结果
-    791c0370a140b881836221f69c664b430617ddd8e2f13e4ef7af425eaa3f2313
+    eRwDcKFAuIGDYiH2nGZLQwYX3dji8T5O969CXqo/IxM=
     HASH 计算之后
     正在排队处理的任务数：0
 */
 ```
-## 已包含的函数 (APIs)
+**消息认证码(HMAC)**
+```js
+/*
+ see test/hmac.js
+*/
+'use strict';
+let path = require('path');
+var fs = require('fs');
+let assert = require('assert');
+let Thread = require('../lib/node-threadobject');
+var crypto = require('crypto');
+var thread = new Thread();
+var key = '_random_key_';
+
+fs.readFile('thread.js', function(err, data) {
+  thread.hmac({data, type: 512, key}, function(err, data){
+    if(err) return console.error(err);
+    console.log(data);
+  });
+  var hmac = crypto.createHmac('sha512', key);
+  hmac.update(data);
+  console.log(hmac.digest('hex'));
+});
+
+/*
+result:
+9c2e2ddd685c05ddfdcc9f92194cb1308b17260ad09b12e259b1d8c4c3b61881b9faa10891f28f718a502347815d795793318c094edb504c5ac19ca0f5521895
+9c2e2ddd685c05ddfdcc9f92194cb1308b17260ad09b12e259b1d8c4c3b61881b9faa10891f28f718a502347815d795793318c094edb504c5ac19ca0f5521895
+*/
+```
+
+## 已包含的方法 (APIs)
 ```
 close  //同步的关闭线程
 isRunning  //返回线程对象的线程是否运行(存在)
@@ -116,7 +148,8 @@ delayByHour  //
 initPrint  //初始化一个打印任务
 printLog  //顺序打印
 closeLog  //关闭打印
-sha256  //计算SHA256
+sha2  //SHA {256, 384, 512}
+hmac  // {256, 384, 512}
 numOfTasks  //线程队列里CPU密集型任务个数
 /*
 未来会有更多密集型计算的扩展 :)

@@ -131,24 +131,25 @@ static void CloseLog(const v8::FunctionCallbackInfo<v8::Value>& args) {
   RETURN_TRUE
 }
 
-static void Sha256(const v8::FunctionCallbackInfo<v8::Value>& args) {
+static void Sha2(const v8::FunctionCallbackInfo<v8::Value>& args) {
   ISOLATE(args);
-  if (args.Length() != 2 
-      || !(args[0]->IsString() || args[0]->IsUint8Array())  // should be a string or a buffer
-      || !args[1]->IsFunction()) {
+  if (args.Length() != 3
+      || !args[0]->IsNumber()
+      || !(args[1]->IsString() || args[1]->IsUint8Array())  // should be a string or a buffer
+      || !args[2]->IsFunction()) {
     TYPEERROR;
   }
   THREAD;  // if thread is not be created, return false in js
-  INITHELPER(args, 1);
+  INITHELPER(args, 2);
   HashData data;
-  if (args[0]->IsString()) {
-    v8::String::Utf8Value info(args[0]);
+  if (args[1]->IsString()) {
+    v8::String::Utf8Value info(args[1]);
     data._data = *info;
   } else {
-    data._p = node::Buffer::Data(args[0]);
-    data._plen = node::Buffer::Length(args[0]);
+    data._p = node::Buffer::Data(args[1]);
+    data._plen = node::Buffer::Length(args[1]);
   }
-  req->w_t = TYPE_SHA_256;
+  req->w_t = TYPE_SHA;
   req->out = (char *)calloc(1, sizeof(HashRe));
   HashRe *hre = (HashRe *)(req->out);
   hre->Clean = &HashHelper::HashClean;
@@ -176,11 +177,76 @@ static void Sha256(const v8::FunctionCallbackInfo<v8::Value>& args) {
     }
       break;
     default:
+      hre->_encoding = node::HEX;
       break;
     }
   }
   thr->message_loop()->PostTask(base::Bind(base::Unretained(HashHelper::GetInstance()),
-    &HashHelper::SHA256, data, req));
+    &HashHelper::SHA, args[0]->ToInt32()->Value(), data, req));
+  RcibHelper::GetInstance()->INC();
+  RETURN_TRUE
+}
+
+static void Hmac(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  ISOLATE(args);
+  if (args.Length() != 4
+    || !args[0]->IsNumber()
+    || !(args[1]->IsString() || args[1]->IsUint8Array())  // should be a string or a buffer
+    || !(args[2]->IsString() || args[2]->IsUint8Array())  // should be a string or a buffer
+    || !args[3]->IsFunction()) {
+    TYPEERROR;
+  }
+  THREAD;  // if thread is not be created, return false in js
+  INITHELPER(args, 3);
+  HashData data;
+  if (args[1]->IsString()) {
+    v8::String::Utf8Value info(args[1]);
+    data._key = *info;
+  } else {
+    data._k = node::Buffer::Data(args[1]);
+    data._klen = node::Buffer::Length(args[1]);
+  }
+  if (args[2]->IsString()) {
+    v8::String::Utf8Value info(args[2]);
+    data._data = *info;
+  } else {
+    data._p = node::Buffer::Data(args[2]);
+    data._plen = node::Buffer::Length(args[2]);
+  }
+  req->w_t = TYPE_SHA;
+  req->out = (char *)calloc(1, sizeof(HashRe));
+  HashRe *hre = (HashRe *)(req->out);
+  hre->Clean = &HashHelper::HashClean;
+  GETATTRINUM(encoding, args.Holder(), encoding);
+  if (-1 == encoding || 0 == encoding){
+    hre->_encoding = node::HEX;
+  } else {
+    //hre->_encoding = static_cast<node::encoding>(encoding);
+    switch (encoding)
+    {
+    case 1:{
+      hre->_encoding = node::UTF8;
+    }
+      break;
+    case 2:{
+      hre->_encoding = node::HEX;
+    }
+      break;
+    case 3:{
+      hre->_encoding = node::BASE64;
+    }
+      break;
+    case 4:{
+      hre->_encoding = node::BUFFER;
+    }
+      break;
+    default:
+      hre->_encoding = node::HEX;
+      break;
+    }
+  }
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(HashHelper::GetInstance()),
+    &HashHelper::Hmac, args[0]->ToInt32()->Value(), data, req));
   RcibHelper::GetInstance()->INC();
   RETURN_TRUE
 }
@@ -215,7 +281,8 @@ inline void NODE_CREATE_FUNCTION(const TypeName& target) {
     NODE_SET_PROTOTYPE_METHOD(t, "bytes_i", LogSize);
     NODE_SET_PROTOTYPE_METHOD(t, "closeLog", CloseLog);
     NODE_SET_PROTOTYPE_METHOD(t, "quen", QueueNum);
-    NODE_SET_PROTOTYPE_METHOD(t, "sha256", Sha256);
+    NODE_SET_PROTOTYPE_METHOD(t, "sha2", Sha2);
+    NODE_SET_PROTOTYPE_METHOD(t, "hmac", Hmac);
 
     target->Set(v8::String::NewFromUtf8(isolate, "THREAD")
       , t->GetFunction());

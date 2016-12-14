@@ -9,8 +9,11 @@ class HashData {
 public:
   HashData();
   std::string _data;
+  std::string _key;
   char * _p;
   size_t _plen;
+  char *_k;
+  size_t _klen;
 };
 
 struct HashRe {
@@ -27,8 +30,10 @@ public:
   static HashHelper* GetInstance();
   //static
   static void HashClean(void *data);
-  // sha-256 
-  void SHA256(const HashData& data, rcib::async_req * req);
+  // sha
+  void SHA(int type /*256|384|512*/, const HashData& data, rcib::async_req * req);
+  // hmac
+  void Hmac(int type /*256|384|512*/, const HashData& data, rcib::async_req * req);
 };
 
 #endif
