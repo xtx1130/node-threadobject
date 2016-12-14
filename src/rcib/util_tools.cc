@@ -27,11 +27,12 @@
 #include <assert.h>
 #include "time/time.h"
 #else
- #include <string.h>
- #include <errno.h>
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#include <string.h>
+#include <errno.h>
 #include <sys/time.h> 
- #include <stdio.h>
- #include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #endif
 #include "util_tools.h"
 
