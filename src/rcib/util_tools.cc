@@ -172,7 +172,7 @@ std::string getFileContents(const std::string &orgfilePath) {
   memset(buf, 0, fileSize+1);
 
   rewind(fp);
-  fread(buf, 1, fileSize, fp);
+  size_t rdata = fread(buf, 1, fileSize, fp);
   retString = buf;
 
   free(buf);
