@@ -30,7 +30,7 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #include <string.h>
 #include <errno.h>
-#include <sys/time.h> 
+#include <sys/time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #endif
