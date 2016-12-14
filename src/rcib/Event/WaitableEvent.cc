@@ -26,6 +26,7 @@
 #ifdef _WIN32
 #include <windows.h>
 #else
+#pragma GCC diagnostic ignored "-Wunused-variable"
 #include<list>
 #include<string>
 #include"../macros.h"
