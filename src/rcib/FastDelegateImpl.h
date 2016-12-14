@@ -35,6 +35,14 @@
 #ifndef FASTDELEGATEIMPL_
 #define FASTDELEGATEIMPL_
 
+#ifdef _WIN32
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wreorder"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+#endif
+
 #include "FastDelegate.h"
 #include "macros.h"
 
@@ -88,8 +96,8 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-        FASTDLGT_RETTYPE (*m_func_no_para)();
-        unsigned _Ref;
+      unsigned _Ref;
+      FASTDLGT_RETTYPE (*m_func_no_para)();
     };
     //N=1
     template <typename Param1, class P1, class RetType>
@@ -115,9 +123,9 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-        FASTDLGT_RETTYPE(*m_func_1_para)(Param1);
-        P1 _p1;
-        unsigned _Ref;
+      unsigned _Ref;
+      FASTDLGT_RETTYPE(*m_func_1_para)(Param1);
+      P1 _p1;  
     };
     //N=2
     template <typename Param1, class Param2, class P1, class P2, class RetType>
@@ -143,10 +151,10 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-        FASTDLGT_RETTYPE (*m_func_2_para)(Param1, Param2);
-        P1 _p1;
-        P2 _p2;
-        unsigned _Ref;
+      unsigned _Ref;
+      FASTDLGT_RETTYPE (*m_func_2_para)(Param1, Param2);
+      P1 _p1;
+      P2 _p2;
     };
     //N=3
     template <typename Param1, class Param2, class Param3, class P1, class P2, class P3, class RetType>
@@ -172,11 +180,11 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
+        unsigned _Ref;
         FASTDLGT_RETTYPE(*m_func_3_para)(Param1, Param2, Param3);
         P1 _p1;
         P2 _p2;
         P3 _p3;
-        unsigned _Ref;
     };
     //N=4
     template <typename Param1, class Param2, class Param3, class Param4, class P1, class P2, class P3, class P4, class RetType>
@@ -202,12 +210,12 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
+        unsigned _Ref;
         FASTDLGT_RETTYPE(*m_func_4_para)(Param1, Param2, Param3, Param4);
         P1 _p1;
         P2 _p2;
         P3 _p3;
         P4 _p4;
-        unsigned _Ref;
     };
     //N=0
     template <class RetType>
@@ -272,9 +280,9 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-      std::auto_ptr<Y> _that;
       FastDelegate0<FASTDLGT_RETTYPE> m_func_no_para;
       unsigned _Ref;
+      std::auto_ptr<Y> _that;
     };
     //N = 1
     template <class X, class Y, typename Param1, typename P1, class RetType>
@@ -312,10 +320,10 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-        std::auto_ptr<Y> _that;
         FastDelegate1<Param1, FASTDLGT_RETTYPE> m_func_1_para;
         unsigned _Ref;
         P1 _p1;
+        std::auto_ptr<Y> _that;
     };
     //N = 2
     template <class X, class Y, class Param1, class Param2, typename P1, typename P2, class RetType>
@@ -353,11 +361,11 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-      std::auto_ptr<Y> _that;
       FastDelegate2<Param1, Param2, FASTDLGT_RETTYPE> m_func_2_para;
       unsigned _Ref;
       P1 _p1;
       P2 _p2;
+      std::auto_ptr<Y> _that;
     };
     //N=3
     template <class X, class Y, class Param1, class Param2, class Param3, class P1, class P2, typename P3, class RetType>
@@ -395,12 +403,12 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-        std::auto_ptr<Y> _that;
         FastDelegate3<Param1, Param2, Param3, FASTDLGT_RETTYPE> m_func_3_para;
         unsigned _Ref;
         P1 _p1;
         P2 _p2;
         P3 _p3;
+        std::auto_ptr<Y> _that;
     };
 
     //N=4
@@ -439,13 +447,13 @@ namespace fastdelegate{
             return _Ref;
         }
     protected:
-        std::auto_ptr<Y> _that;
         FastDelegate4<Param1, Param2, Param3,Param4, FASTDLGT_RETTYPE> m_func_4_para;
         unsigned _Ref;
         P1 _p1;
         P2 _p2;
         P3 _p3;
         P4 _p4;
+        std::auto_ptr<Y> _that;
     };
     //N=5
     template <class X, class Y, class Param1, class Param2, class Param3, class Param4, class Param5, class P1, class P2, class P3, class P4, class P5, class RetType>
@@ -487,7 +495,6 @@ namespace fastdelegate{
         }
 
     protected:
-        std::auto_ptr<Y> _that;
         FastDelegate5<Param1, Param2, Param3,Param4, Param5, FASTDLGT_RETTYPE> m_func_5_para;
         unsigned _Ref;
         P1 _p1;
@@ -495,6 +502,7 @@ namespace fastdelegate{
         P3 _p3;
         P4 _p4;
         P5 _p5;
+        std::auto_ptr<Y> _that;
     };
     //Normal
     //N=0
