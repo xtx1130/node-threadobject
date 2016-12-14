@@ -1,5 +1,4 @@
-/* 
-   "nickname"： "Banz(classfellow@qq.com)"
+/*
    "license": "BSD"
 */
 "use strict";
