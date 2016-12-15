@@ -1,4 +1,7 @@
 # node-threadobject
+![](http://admin.waketu.com/git-passing)
+
+node-threadobject 是一个 C++ 模块，用来实现在 js 中创建线程，并将复杂的计算任务委托给新线程执行。
 
 在 Js 代码中创建线程对象，执行 CPU 密集型函数，例如计算大文件 HASH，加密解密等任务。可扩展 C++ 模块的处理函数，处理不同的复杂计算任务。在多核环境下，线程对象有助于更好的分配 node 集群中各个线程的 CPU 占用，以可控的方式减少线程等待和阻塞主线程。
 
