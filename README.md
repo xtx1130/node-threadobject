@@ -1,7 +1,7 @@
 # node-threadobject
 ![](http://admin.waketu.com/git-passing)
 
-node-threadobject 是一个 C++ 模块，用来实现在 js 中创建线程，并将复杂的计算任务委托给新线程执行。
+Node 在富计算场景下可能会遇到瓶颈(好比用一条腿走路)。 node-threadobject 是一个 C++ 模块，用来实现在 Js 代码中创建线程，并将复杂的计算任务委托给新线程执行。
 
 在 Js 代码中创建线程对象，执行 CPU 密集型函数，例如计算大文件 HASH，加密解密等任务。可扩展 C++ 模块的处理函数，处理不同的复杂计算任务。在多核环境下，线程对象有助于更好的分配 node 集群中各个线程的 CPU 占用，以可控的方式减少线程等待和阻塞主线程。
 
@@ -30,9 +30,9 @@ node-gyp build (or  **sudo node-gyp rebuild** )
 
 ## How it works
 
-参考了 chrome 浏览器的线程模型(chrome thread model)，每个线程内部包含了一个 C++ 闭包(C++ closures)的队列，按序处理任务。
+参考了 chrome 浏览器的线程模型(chrome thread model)，每个线程内部包含了一个 C++ 闭包队列(C++ closure queue)，按序处理任务。
 
-## 增加更多的计算型函数 (Add more computational type functions)
+## 增加更多的计算型函数 (Add more computational types of functions)
 
 有充足的空间，你可以很方便的添加新函数。这意味着一般来讲，只需要增加新的文件，然后将头文件增加到rcib.h中。hash 是一个例子，它是一个无状态型的计算任务，file 是另外一个例子。增加新的计算型函数不需要修改 rcib(run codes in background) 目录里面的代码。
 
@@ -135,8 +135,8 @@ fs.readFile('test/thread.js', function(err, data) {
 
 /*
 result:
-9c2e2ddd685c05ddfdcc9f92194cb1308b17260ad09b12e259b1d8c4c3b61881b9faa10891f28f718a502347815d795793318c094edb504c5ac19ca0f5521895
-9c2e2ddd685c05ddfdcc9f92194cb1308b17260ad09b12e259b1d8c4c3b61881b9faa10891f28f718a502347815d795793318c094edb504c5ac19ca0f5521895
+    9c2e2ddd685c05ddfdcc9f92194cb1308b17260ad09b12e259b1d8c4c3b61881b9faa10891f28f718a502347815d795793318c094edb504c5ac19ca0f5521895
+    9c2e2ddd685c05ddfdcc9f92194cb1308b17260ad09b12e259b1d8c4c3b61881b9faa10891f28f718a502347815d795793318c094edb504c5ac19ca0f5521895
 */
 ```
 
