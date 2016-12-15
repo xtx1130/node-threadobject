@@ -8,7 +8,7 @@ var thread = new Thread();
 var key = '_random_key_';
 
 fs.readFile('../thread.js', function(err, data) {
-  thread.hmac({data, type: 512, key}, function(err, data){
+  thread.hmac({data: data, type: 512, key: key}, function(err, data){
     if(err) return console.error(err);
     console.log(data);
   });

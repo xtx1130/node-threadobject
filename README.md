@@ -17,7 +17,7 @@ Node 在富计算场景下可能会遇到瓶颈(好比用一条腿走路)。 nod
 > Windows & Linux
 
 ## 需要的 Node 版本 (Node Support)
-> \>=6.0.0
+> \>=4.0.0
 
 ## 编译链接(Compile & Link)
 ```

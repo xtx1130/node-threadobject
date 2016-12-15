@@ -9,7 +9,7 @@ thread.set_encode('base64');
 
 console.log('HASH 计算之前');
 fs.readFile('../thread.js', function(err, data) {
-  thread.sha2({data, type: 256}, function(err, data){
+  thread.sha2({data: data, type: 256}, function(err, data){
     if(err) return console.error(err);
     console.log('HASH 计算结果');
     console.log(data);

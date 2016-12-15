@@ -1,6 +1,6 @@
 {
   "name": "node-threadobject",
-  "version": "0.4.44",
+  "version": "0.4.45",
   "description": "extend node by c++ closures, create thread objects from js",
   "main": "index.js",
   "directories": {
@@ -15,7 +15,7 @@
     "url": "git+https://github.com/classfellow/node-threadobject.git"
   },
   "engines": {
-    "node": ">= 6.0.0"
+    "node": ">= 4.0.0"
   },
   "dependencies": {
   },
