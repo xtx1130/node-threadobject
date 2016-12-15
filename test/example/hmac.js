@@ -2,12 +2,12 @@
 let path = require('path');
 var fs = require('fs');
 let assert = require('assert');
-let Thread = require('../lib/node-threadobject');
+let Thread = require('../../lib/node-threadobject');
 var crypto = require('crypto');
 var thread = new Thread();
 var key = '_random_key_';
 
-fs.readFile('thread.js', function(err, data) {
+fs.readFile('../thread.js', function(err, data) {
   thread.hmac({data, type: 512, key}, function(err, data){
     if(err) return console.error(err);
     console.log(data);

@@ -77,18 +77,18 @@ result:
 **在另一个线程中计算一个文件的 HASH 值**
 ```js
 /*
- see test/sha2.js
+ see test/example/sha2.js
 */
 'use strict';
 let path = require('path');
 var fs = require('fs');
 let assert = require('assert');
-let Thread = require('../lib/node-threadobject');
+let Thread = require('node-threadobject');
 var thread = new Thread();
 thread.set_encode('base64');
 
 console.log('HASH 计算之前');
-fs.readFile('thread.js', function(err, data) {
+fs.readFile('test/thread.js', function(err, data) {
   thread.sha2({data, type: 256}, function(err, data){
     if(err) return console.error(err);
     console.log('HASH 计算结果');
@@ -112,18 +112,18 @@ result:
 **消息认证码(HMAC)**
 ```js
 /*
- see test/hmac.js
+ see test/example/hmac.js
 */
 'use strict';
 let path = require('path');
 var fs = require('fs');
 let assert = require('assert');
-let Thread = require('../lib/node-threadobject');
+let Thread = require('node-threadobject');
 var crypto = require('crypto');
 var thread = new Thread();
 var key = '_random_key_';
 
-fs.readFile('thread.js', function(err, data) {
+fs.readFile('test/thread.js', function(err, data) {
   thread.hmac({data, type: 512, key}, function(err, data){
     if(err) return console.error(err);
     console.log(data);
