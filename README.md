@@ -50,7 +50,7 @@ src/hash 这是一个无状态计算任务的范例。
 npm install node-threadobject (or  **sudo npm install node-threadobject** )
 ```
 
-## 例子(Example)
+## 例子(Examples)
 
 **将一个定时器抛给线程对象，等待2秒钟后，回到主线程执行回调函数。内部使用64位表示时间，支持以小时为单位的大定时器**
 ```js

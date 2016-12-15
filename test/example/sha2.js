@@ -2,7 +2,7 @@
 let path = require('path');
 var fs = require('fs');
 let assert = require('assert');
-let Thread = require('../../lib/node-threadobject');
+let Thread = require('./../../index.js');
 
 var thread = new Thread();
 thread.set_encode('base64');

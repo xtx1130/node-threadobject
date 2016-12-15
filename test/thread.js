@@ -1,7 +1,7 @@
 'use strict';
 let path = require('path');
 let assert = require('assert');
-let Thread = require('../lib/node-threadobject');
+let Thread = require('../index.js');
 
 describe('exports', function () {
   describe('.Thread', function () {

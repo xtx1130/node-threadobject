@@ -2,7 +2,7 @@
 let path = require('path');
 var fs = require('fs');
 let assert = require('assert');
-let Thread = require('../../lib/node-threadobject');
+let Thread = require('./../../index.js');
 var crypto = require('crypto');
 var thread = new Thread();
 var key = '_random_key_';
