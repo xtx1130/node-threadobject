@@ -1,11 +1,8 @@
 {
   "name": "node-threadobject",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "extend node by c++ closures, create thread objects from js",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "test": "mocha test"
     ,"install": "node-gyp rebuild"
@@ -50,5 +47,6 @@
   "bugs": {
     "url": "https://github.com/classfellow/node-threadobject/issues"
   },
+  "directories": {},
   "homepage": "https://github.com/classfellow/node-threadobject#readme"
 }
