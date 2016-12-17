@@ -1,9 +1,9 @@
 ![Node-threadobject](http://admin.waketu.com/1481959745_402753.png)
 
-![](http://admin.waketu.com/npm-passing.svg)
-![](http://admin.waketu.com/node-version.svg)
-![](http://admin.waketu.com/node-platform.svg)
-![](http://admin.waketu.com/lisence-bsd.svg)
+[![](http://admin.waketu.com/npm-passing.svg)](https://www.npmjs.com/package/node-threadobject "")
+[![](http://admin.waketu.com/node-version.svg)](https://www.npmjs.com/package/node-threadobject "")
+[![](http://admin.waketu.com/node-platform.svg)](https://www.npmjs.com/package/node-threadobject "")
+[![](http://admin.waketu.com/lisence-bsd.svg)](https://www.npmjs.com/package/node-threadobject "")
 
 Node 在富计算场景下可能会遇到瓶颈(好比用一条腿走路)。 node-threadobject 是一个 C++ 模块，用来实现在 Js 代码中创建线程，并将复杂的计算任务委托给新线程执行。
 
@@ -20,7 +20,7 @@ Node 在富计算场景下可能会遇到瓶颈(好比用一条腿走路)。 nod
 ## 支持的操作系统(Platform Support)
 > Windows & Linux
 
-## 需要的 Node 版本 (Node Support)
+## 需要的 Node 版本 (Node engine)
 > \>=4.0.0
 
 ## 编译链接(Compile & Link)
