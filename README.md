@@ -168,7 +168,7 @@ function callback(err, data) {
 fs.readFile('./mem-pressure-test', callback);
 ```
 > On Win 7 x86-64
-After 30 mins of running, mem usage maintained at 46M.
+> After 30 mins of running, mem usage maintained at 46M.
 
 ## 已包含的方法 (APIs)
 ```
