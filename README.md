@@ -1,6 +1,6 @@
 ![Node-threadobject](http://admin.waketu.com/1481959745_402753.png)
 
-&middot; ![](http://admin.waketu.com/git-passing)
+![](http://admin.waketu.com/git-passing)
 
 Node 在富计算场景下可能会遇到瓶颈(好比用一条腿走路)。 node-threadobject 是一个 C++ 模块，用来实现在 Js 代码中创建线程，并将复杂的计算任务委托给新线程执行。
 
