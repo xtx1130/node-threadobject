@@ -1,8 +1,10 @@
 {
   "name": "node-threadobject",
   "version": "0.5.1",
+  "homepage": "https://github.com/classfellow/node-threadobject",
   "description": "extend node by c++ closures, create thread objects from js",
-  "main": "index.js",
+  "license": "BSD",
+  "main": "index",
   "scripts": {
     "test": "mocha test"
     ,"install": "node-gyp rebuild"
@@ -34,8 +36,10 @@
     "closure",
     "c++ closure"
   ],
-  "author": "YouJia",
-  "license": "BSD",
+  "author": {
+    "name": "YouJia",
+    "email": "classfellow@qq.com"
+  },
   "contributors": [
     {
       "name": "YouJia",
@@ -47,6 +51,5 @@
   "bugs": {
     "url": "https://github.com/classfellow/node-threadobject/issues"
   },
-  "directories": {},
-  "homepage": "https://github.com/classfellow/node-threadobject#readme"
+  "directories": {}
 }
