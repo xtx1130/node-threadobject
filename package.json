@@ -1,13 +1,13 @@
 {
   "name": "node-threadobject",
-  "version": "0.4.46",
+  "version": "0.4.48",
   "description": "extend node by c++ closures, create thread objects from js",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "mocha thread.js"
+    "test": "mocha test"
     ,"install": "node-gyp rebuild"
   },
   "repository": {
@@ -25,16 +25,17 @@
   "keywords": [
     "cpu-intensive",
     "cpu-bound task",
+    "multi-thread",
+    "HASH",
+    "SHA",
+    "HMAC",
+    "Block chain",
+    "node",
     "nodejs",
     "libuv",
     "c++",
     "closure",
-    "c++ closure",
-    "thread"
-    , "ML"
-    ,"HASH"
-    ,"SHA-256"
-    ,"Block chain"
+    "c++ closure"
   ],
   "author": "YouJia",
   "license": "BSD",

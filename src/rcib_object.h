@@ -98,24 +98,14 @@ namespace rcib {
       return item;
     }
     inline void PickFinished();
-    inline void INC() {
-      ++tasks_;
-    }
-    inline void DEC(){
-      --tasks_;
-    }
     inline size_t taskNum(){
-      return tasks_;
+      return 0;
     }
-    inline void ChgProcessed(int delta){
-      cprocessed_ += delta;
-    }
+
   private:
     std::list<async_req *> pending_queue_;
     std::list<async_req *> working_queue_;
     async_t_handle *handle_;
-    INT64 cprocessed_;
-    size_t tasks_;
   };
 
   class furOfThread {

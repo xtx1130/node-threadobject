@@ -143,6 +143,33 @@ result:
 */
 ```
 
+##压力测试(Pressure test report)
+```js
+/*
+ see test/example/mem-pressure-test.js
+*/
+'use strict';
+var fs = require('fs');
+let Thread = require('node-threadobject');
+var thread = new Thread();
+
+thread.set_encode('base64');
+
+function callback(err, data) {
+  thread.sha2({data: data, type: 256}, function(err, data){
+    if(err) return console.error(err);
+    console.log('HASH 计算结果');
+    console.log(data);
+
+    fs.readFile('./mem-pressure-test', callback);
+  });
+}
+
+fs.readFile('./mem-pressure-test', callback);
+```
+> On Win 7 x86-64
+After 30 mins of running, mem usage maintained at 46M.
+
 ## 已包含的方法 (APIs)
 ```
 close  //同步的关闭线程

@@ -150,40 +150,17 @@ static void Sha2(const v8::FunctionCallbackInfo<v8::Value>& args) {
     data._plen = node::Buffer::Length(args[1]);
   }
   req->w_t = TYPE_SHA;
-  req->out = (char *)calloc(1, sizeof(HashRe));
+  req->out = (char*)(new HashRe(&HashHelper::HashClean, thr->AsWeakPtr()));
   HashRe *hre = (HashRe *)(req->out);
-  hre->Clean = &HashHelper::HashClean;
   GETATTRINUM(encoding, args.Holder(), encoding);
   if (-1 == encoding || 0 == encoding){
     hre->_encoding = node::HEX;
   } else {
-    //hre->_encoding = static_cast<node::encoding>(encoding);
-    switch (encoding)
-    {
-    case 1:{
-      hre->_encoding = node::UTF8;
-    }
-      break;
-    case 2:{
-      hre->_encoding = node::HEX;
-    }
-      break;
-    case 3:{
-      hre->_encoding = node::BASE64;
-    }
-      break;
-    case 4:{
-      hre->_encoding = node::BUFFER;
-    }
-      break;
-    default:
-      hre->_encoding = node::HEX;
-      break;
-    }
+    HashHelper::RetType(encoding, hre->_encoding);
   }
   thr->message_loop()->PostTask(base::Bind(base::Unretained(HashHelper::GetInstance()),
     &HashHelper::SHA, args[0]->ToInt32()->Value(), data, req));
-  RcibHelper::GetInstance()->INC();
+  thr->IncComputational();
   RETURN_TRUE
 }
 
@@ -214,45 +191,23 @@ static void Hmac(const v8::FunctionCallbackInfo<v8::Value>& args) {
     data._plen = node::Buffer::Length(args[2]);
   }
   req->w_t = TYPE_SHA;
-  req->out = (char *)calloc(1, sizeof(HashRe));
+  req->out = (char*)(new HashRe(&HashHelper::HashClean, thr->AsWeakPtr()));
   HashRe *hre = (HashRe *)(req->out);
-  hre->Clean = &HashHelper::HashClean;
   GETATTRINUM(encoding, args.Holder(), encoding);
   if (-1 == encoding || 0 == encoding){
     hre->_encoding = node::HEX;
   } else {
-    //hre->_encoding = static_cast<node::encoding>(encoding);
-    switch (encoding)
-    {
-    case 1:{
-      hre->_encoding = node::UTF8;
-    }
-      break;
-    case 2:{
-      hre->_encoding = node::HEX;
-    }
-      break;
-    case 3:{
-      hre->_encoding = node::BASE64;
-    }
-      break;
-    case 4:{
-      hre->_encoding = node::BUFFER;
-    }
-      break;
-    default:
-      hre->_encoding = node::HEX;
-      break;
-    }
+    HashHelper::RetType(encoding, hre->_encoding);
   }
   thr->message_loop()->PostTask(base::Bind(base::Unretained(HashHelper::GetInstance()),
     &HashHelper::Hmac, args[0]->ToInt32()->Value(), data, req));
-  RcibHelper::GetInstance()->INC();
+  thr->IncComputational();
   RETURN_TRUE
 }
 
 static void QueueNum(const v8::FunctionCallbackInfo<v8::Value>& args) {
-  uint32_t num = static_cast<uint32_t>(RcibHelper::GetInstance()->taskNum());
+  THREAD;
+  uint32_t num = static_cast<uint32_t>(thr->Computational());
   args.GetReturnValue().Set(num);
 }
 

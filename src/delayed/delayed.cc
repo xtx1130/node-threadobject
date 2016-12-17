@@ -33,5 +33,4 @@ void DelayedHelper::DelayByHour(rcib::async_req * req){
 void DelayedHelper::CommonPross(rcib::async_req * req){
   rcib::RcibHelper::DoNopAsync(req);
   rcib::RcibHelper::GetInstance()->Uv_Send(req, NULL);
-  rcib::RcibHelper::GetInstance()->ChgProcessed(1);
 }

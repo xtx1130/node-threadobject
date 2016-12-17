@@ -33,7 +33,7 @@ namespace base{
   typedef pthread_t PlatformThreadHandle;
   typedef pid_t PlatformThreadId;
 #endif
-  class Thread{
+  class Thread : public SupportsWeakPtr<Thread>{
   public:
     static const unsigned long kInvalidThreadId = 0;
 
@@ -90,6 +90,7 @@ namespace base{
     explicit Thread(const char *name);
     virtual ~Thread();
 
+    void Init();
     bool StartWithOptions(const Options& options);
     void Stop();
     MessageLoop *message_loop() const { return message_loop_; }
@@ -113,6 +114,9 @@ namespace base{
     bool SetRoler(std::string name, FurRoler &ft);
     FurRoler GetRoler(std::string name);
     void RemoveRoler(std::string name);
+    void IncComputational();
+    void DecComputational();
+    size_t Computational();
   protected:
     virtual void CleanUp() {}
   private:
@@ -139,6 +143,8 @@ namespace base{
     std::map<std::string, FurRoler> rolers_;
 
     typedef std::map<std::string, FurRoler>::iterator FileIter;
+
+    size_t computational_;
 
     DISALLOW_COPY_AND_ASSIGN_(Thread);
   };

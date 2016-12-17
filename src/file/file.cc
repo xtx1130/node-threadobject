@@ -64,7 +64,6 @@ void FileHelper::InitPrint(const std::string & path, rcib::async_req * req,
     rcib::RcibHelper::EMark(req, std::string("open file error"));
   }
   rcib::RcibHelper::GetInstance()->Uv_Send(req, NULL);
-  rcib::RcibHelper::GetInstance()->ChgProcessed(1);
 }
 
 void FileHelper::PrintLogs(const std::string & info, rcib::async_req * req, base::Thread* thr){
@@ -72,7 +71,6 @@ void FileHelper::PrintLogs(const std::string & info, rcib::async_req * req, base
 
   base::FurRoler ft = thr->GetRoler(ROLEDEF(print));
   PrintHelper * t = (PrintHelper *)(ft.get());
-  rcib::RcibHelper::GetInstance()->ChgProcessed(1);
 
   if (!t){
     rcib::RcibHelper::EMark(req, std::string("you should call initPrint first"));
@@ -102,7 +100,6 @@ void FileHelper::LogSize(rcib::async_req * req, base::Thread* thr){
     rcib::RcibHelper::DoNopAsync(req, size);
   }
   rcib::RcibHelper::GetInstance()->Uv_Send(req, nullptr);
-  rcib::RcibHelper::GetInstance()->ChgProcessed(1);
 }
 
 void FileHelper::CloseLog(base::Thread* thr){
@@ -112,7 +109,6 @@ void FileHelper::CloseLog(base::Thread* thr){
   if (!t) return;
   t->close();
   t->setbysec(5);
-  rcib::RcibHelper::GetInstance()->ChgProcessed(1);
 }
 
 void FileHelper::Fflush(base::Thread* thr){

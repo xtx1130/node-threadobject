@@ -619,10 +619,10 @@ namespace fastdelegate{
             OutputDebugStringA("delete TASK\n");
 #endif
             if(m_Func){
-                m_Func->ReleaseRef();
+              m_Func->ReleaseRef();
             }
             if(m_Class){
-                m_Class->ReleaseRef();
+              m_Class->ReleaseRef();
             }
         }
         void SetFun(ExecDelegate<FASTDLGT_RETTYPE>* p){m_Func = p;}

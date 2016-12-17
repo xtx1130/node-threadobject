@@ -92,6 +92,7 @@ namespace base{
     message_loop_(NULL),
     thread_id_(kInvalidThreadId),
     startup_data_(NULL){
+    Init();
   }
 
   Thread::Thread(const char* name):
@@ -106,6 +107,11 @@ namespace base{
     name_(name),
     thread_id_(kInvalidThreadId),
     startup_data_(NULL){
+    Init();
+  }
+
+  void Thread::Init(){
+    computational_ = 0;
   }
 
   Thread::~Thread(){
@@ -285,6 +291,17 @@ namespace base{
       return;
     }
     rolers_.erase(iter);
+  }
+
+  void Thread::IncComputational(){
+    ++computational_;
+  }
+
+  void Thread::DecComputational(){
+    --computational_;
+  }
+  size_t Thread::Computational(){
+    return computational_;
   }
 
 }//end base

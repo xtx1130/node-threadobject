@@ -26,7 +26,7 @@ namespace rcib {
 
   // constructor
   RcibHelper::RcibHelper()
-    :cprocessed_(0), handle_(nullptr), tasks_(0){
+    :handle_(nullptr){
   }
   //static
   RcibHelper* RcibHelper::GetInstance(){
@@ -62,8 +62,10 @@ namespace rcib {
           argc = 2;
           HashRe *hre = reinterpret_cast<HashRe *>(req->out);
           argv[1] = node::Encode(isolate, reinterpret_cast<char *>(hre->_data), hre->_len, hre->_encoding);
-          assert(hre->Clean);
-          (*(hre->Clean))(hre->_data);
+          assert(hre->_fclean);
+          (*(hre->_fclean))(hre->_data, hre->_thr);
+          delete hre;
+          req->out = nullptr;  // should be set null
         }
         break;
         default: {
