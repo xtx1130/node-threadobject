@@ -1,8 +1,8 @@
 {
   "name": "node-threadobject",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "homepage": "https://github.com/classfellow/node-threadobject",
-  "description": "extend node by c++ closures, create thread objects from js",
+  "description": "let node support multi threads in js codes",
   "license": "BSD",
   "main": "index",
   "scripts": {
