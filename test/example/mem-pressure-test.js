@@ -2,17 +2,17 @@
 var fs = require('fs');
 let Thread = require('./../../index.js');
 var thread = new Thread();
-
 thread.set_encode('base64');
 
+var fData = null;
 function callback(err, data) {
-  thread.sha2({data: data, type: 256}, function(err, data){
-  	if(err) return console.error(err);
-    console.log('HASH 计算结果');
-    console.log(data);
-
-    fs.readFile('./mem-pressure-test', callback);
+  if(err) return console.error(err);
+  console.log(data);
+  setImmediate(function(){
+    thread.sha2({data: fData, type: 256}, callback);
   });
 }
-
-fs.readFile('./mem-pressure-test', callback);
+fs.readFile('./mem-pressure-test', function(err, data){
+  fData = data
+  thread.sha2({data: fData, type: 256}, callback);
+});

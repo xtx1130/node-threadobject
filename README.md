@@ -1,5 +1,6 @@
-# node-threadobject
-![](http://admin.waketu.com/git-passing)
+![Node-threadobject](http://admin.waketu.com/1481959745_402753.png)
+
+&middot; ![](http://admin.waketu.com/git-passing)
 
 Node 在富计算场景下可能会遇到瓶颈(好比用一条腿走路)。 node-threadobject 是一个 C++ 模块，用来实现在 Js 代码中创建线程，并将复杂的计算任务委托给新线程执行。
 
@@ -143,7 +144,7 @@ result:
 */
 ```
 
-##压力测试(Pressure test report)
+##压力测试 (Pressure test report)
 ```js
 /*
  see test/example/mem-pressure-test.js
@@ -152,24 +153,24 @@ result:
 var fs = require('fs');
 let Thread = require('node-threadobject');
 var thread = new Thread();
-
 thread.set_encode('base64');
 
+var fData = null;
 function callback(err, data) {
-  thread.sha2({data: data, type: 256}, function(err, data){
-    if(err) return console.error(err);
-    console.log('HASH 计算结果');
-    console.log(data);
-
-    fs.readFile('./mem-pressure-test', callback);
+  if(err) return console.error(err);
+  console.log(data);
+  setImmediate(function(){
+    thread.sha2({data: fData, type: 256}, callback);
   });
 }
-
-fs.readFile('./mem-pressure-test', callback);
+fs.readFile('./mem-pressure-test', function(err, data){
+  fData = data
+  thread.sha2({data: fData, type: 256}, callback);
+});
 ```
 > On Win 7 x86-64
 
-> After 30 mins of running, mem usage maintained at 46M.
+> After 30 mins of running, mem usage maintained at 12M.
 
 ## 已包含的方法 (APIs)
 ```
