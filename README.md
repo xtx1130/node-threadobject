@@ -171,7 +171,7 @@ fs.readFile('./mem-pressure-test', function(err, data){
   thread.sha2({data: fData, type: 256}, callback);
 });
 ```
-> On Win 7 x86-64
+> On Win 7 x86-64bit & node-v6.9.1
 
 > After 30 mins of running, mem usage maintained at 12M.
 
