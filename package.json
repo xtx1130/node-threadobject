@@ -1,6 +1,6 @@
 {
   "name": "node-threadobject",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "homepage": "https://github.com/classfellow/node-threadobject",
   "description": "let node support multi threads in js codes",
   "license": "BSD",
