@@ -175,6 +175,9 @@ fs.readFile('./mem-pressure-test', function(err, data){
 
 > After 30 mins of running, mem usage maintained at 12M.
 
+## Push list
+0.5.3 -> fixed compile errors for node v7 
+
 ## 已包含的方法 (APIs)
 ```
 close  //同步的关闭线程

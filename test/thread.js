@@ -54,7 +54,7 @@ describe('exports', function () {
          assert.ifError(err);
       })
       //closeLog is not necessary to be called
-      thread.initPrint(filename + '2', function(err){
+      thread.initPrint(filename + '.dat', function(err){
          assert.ifError(err);
       })
       thread.printLog('hello world', function(err){

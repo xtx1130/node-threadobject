@@ -21,8 +21,8 @@ static void NewThread(const v8::FunctionCallbackInfo<v8::Value>& args){
   NOTH
   DCHECK(args.IsConstructCall());
   v8::HandleScope handle_scope(v8::Isolate::GetCurrent());
-  furThread_.Get().Wrap(args.This());
-  rcib::CallbackInfo::New(args.GetIsolate(), args.This(), rcib::CallbackInfo::Free);
+  void * data = furThread_.Get().Wrap(args.This());
+  if(data) rcib::CallbackInfo::New(args.GetIsolate(), args.This(), rcib::CallbackInfo::Free, data);
 }
 
 static void Close(const v8::FunctionCallbackInfo<v8::Value>& args) {

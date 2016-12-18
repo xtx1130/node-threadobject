@@ -115,15 +115,17 @@ namespace rcib {
     ~furOfThread(){
     }
 
-    void Wrap(v8::Local<v8::Object> object){
+    void* Wrap(v8::Local<v8::Object> object){
       DCHECK_EQ(false, object.IsEmpty());
       DCHECK_G(object->InternalFieldCount(), 0);
       base::Thread *thread = new base::Thread();
+      if (!thread) return nullptr;
       if (!thread->IsRunning()){
         thread->set_thread_name("distribute_task_thread");
         thread->StartWithOptions(base::Thread::Options());
       }
       object->SetAlignedPointerInInternalField(0, (void*)thread);
+      return thread;
     }
 
     void Wrap(v8::Local<v8::Object> object, void *tmp){

@@ -20,4 +20,5 @@ node_modules
 .DS_Store
 *.pdb
 *.obj
+*.dat
 tmp/
