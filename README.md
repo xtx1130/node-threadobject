@@ -147,6 +147,26 @@ result:
 */
 ```
 
+**Ed25519签名(Ed25519)**
+```js
+/*
+see test/ed25519.js
+*/
+
+"use strict";
+const Thread = require('node-threadobject');
+let thread = new Thread();
+
+thread.Sign(new Buffer('a message'), 'af9881fe34edfd3463cf3e14e22ad95a0608967e084d3ca1fc57be023040de59', function(err, data){
+  console.log(data.toString('hex'));
+});
+
+/*
+result:
+    1b7b8d7141a2fd9e1fc99175eaa8dbcf82189d007a4210fc58f0cf24b5e0cc6d4f8b138352953a97d4237a9a75bfce97f5b12f7a8e56692ee7aafd61161f8204
+*/
+```
+
 ## 压力测试 (Pressure test report)
 ```js
 /*
@@ -176,7 +196,8 @@ fs.readFile('./mem-pressure-test', function(err, data){
 > After 30 mins of running, mem usage maintained at 12M.
 
 ## Push list
-0.5.4 -> fixed compile errors for node v7 
+0.5.4 -> fixed compile errors for node v7
+0.5.5 -> add ed25519
 
 ## 已包含的方法 (APIs)
 ```
@@ -192,9 +213,10 @@ closeLog  //关闭打印
 sha2  //SHA {256, 384, 512}
 hmac  // {256, 384, 512}
 numOfTasks  //线程队列里CPU密集型任务个数
-/*
-未来会有更多密集型计算的扩展 :)
-*/
+makeKeypair // 使用 Ed25519 生成密钥对
+Sign // 使用 Ed25519 签名 Ed25519-DSA
+Verify // 验证
+
 ```
 
 ## Other example
@@ -203,7 +225,7 @@ numOfTasks  //线程队列里CPU密集型任务个数
 ```
 ## More descriptions
 
-This package provides a good way to extend node ability.It give you ability to have thread objects.
+https://github.com/dazoe/ed25519.git (Ed25519 implementation)
 
 ## 证书 (License)
 

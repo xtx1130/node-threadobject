@@ -8,6 +8,7 @@
 #include "hash/hash.h"
 #include "delayed/delayed.h"
 #include "file/file.h"
+#include "ed25519/ed25519.h"
 
 using namespace rcib;
 
@@ -211,6 +212,92 @@ static void QueueNum(const v8::FunctionCallbackInfo<v8::Value>& args) {
   args.GetReturnValue().Set(num);
 }
 
+static void MakeKeypair(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  ISOLATE(args);
+  if (args.Length() != 1
+    || !args[0]->IsUint8Array()
+    || node::Buffer::Length(args[0]) != 32 ){
+    TYPEERROR2(MakeKeypair requires a 32 byte buffer);
+  }
+  const unsigned char* seed = (unsigned char*)node::Buffer::Data(args[0]);
+  v8::Local<v8::Object> privateKey = node::Buffer::New(isolate, 64).ToLocalChecked();
+  unsigned char* privateKeyData = (unsigned char*)node::Buffer::Data(privateKey);
+  v8::Local<v8::Object> publicKey = node::Buffer::New(isolate, 32).ToLocalChecked();
+  unsigned char* publicKeyData = (unsigned char*)node::Buffer::Data(publicKey);
+  for (int i = 0; i < 32; i++)
+    privateKeyData[i] = seed[i];
+  crypto_sign_keypair(publicKeyData, privateKeyData);
+
+  v8::Local<v8::Object> result = v8::Object::New(isolate);
+  result->Set(v8::String::NewFromUtf8(isolate, "publicKey"), publicKey);
+  result->Set(v8::String::NewFromUtf8(isolate, "privateKey"), privateKey);
+  args.GetReturnValue().Set(result);
+}
+
+static void Sign(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  ISOLATE(args);
+  if (args.Length() != 3
+    || !args[0]->IsUint8Array()
+    || !(args[1]->IsUint8Array() || (args[1]->IsObject() && !node::Buffer::HasInstance(args[1])))
+    || !args[2]->IsFunction()){
+    TYPEERROR2(Sign requires(Buffer, { Buffer(32 or 64) | keyPair object }, callback|1));
+  }
+  Ed25519Data data;
+  data._msg = (unsigned char*)node::Buffer::Data(args[0]);
+  data._mlen = node::Buffer::Length(args[0]);
+  if(args[1]->IsObject() && !node::Buffer::HasInstance(args[1])){
+    v8::Local<v8::Value> privateKeyBuffer = args[1]->ToObject()->Get(v8::String::NewFromUtf8(isolate, "privateKey"))->ToObject();
+    if (!node::Buffer::HasInstance(privateKeyBuffer) || 64 != node::Buffer::Length(privateKeyBuffer)){
+      TYPEERROR2(Sign requires(Buffer, { Buffer(32 or 64) | keyPair object }, callback|2));
+    }
+    data._privateKey = (unsigned char*)node::Buffer::Data(privateKeyBuffer);
+  }
+  else if(32 == node::Buffer::Length(args[1])){
+    data._seed = (unsigned char*)node::Buffer::Data(args[1]);
+  }
+  else if(64 == node::Buffer::Length(args[1])){
+    data._privateKey = (unsigned char*)node::Buffer::Data(args[1]);
+  }
+  else{
+    TYPEERROR2(Sign requires(Buffer, { Buffer(32 or 64) | keyPair object }, callback|3));
+  }
+  THREAD;  // if thread is not be created, return false in js
+  INITHELPER(args, 2);
+  req->w_t = TYPE_ED25519;
+  req->out = (char*)(new Ed25519Re(thr->AsWeakPtr(), Ed25519Re::SIGN));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(Ed25519Helper::GetInstance()),
+    &Ed25519Helper::Sign, data, req));
+  thr->IncComputational();
+  RETURN_TRUE
+}
+
+static void Verify(const v8::FunctionCallbackInfo<v8::Value>& args) {
+  ISOLATE(args);
+  Ed25519Data data;
+  if (args.Length() != 4
+    || !args[0]->IsUint8Array()
+    || !args[1]->IsUint8Array()
+    || !args[2]->IsUint8Array()
+    || !args[3]->IsFunction()){
+    TYPEERROR2(Verify requires(Buffer, Buffer(64), Buffer(32), callback));
+  }
+  if (!(32 == node::Buffer::Length(args[2]) && 64 == node::Buffer::Length(args[1]))){
+    TYPEERROR2(Verify requires(Buffer, Buffer(64), Buffer(32), callback))
+  }
+  THREAD;  // if thread is not be created, return false in js
+  INITHELPER(args, 3);
+  data._msg = (unsigned char*)node::Buffer::Data(args[0]);
+  data._mlen = node::Buffer::Length(args[0]);
+  data._seed = (unsigned char*)node::Buffer::Data(args[1]);
+  data._privateKey = (unsigned char*)node::Buffer::Data(args[2]); // here is pub
+  req->w_t = TYPE_ED25519;
+  req->out = (char*)(new Ed25519Re(thr->AsWeakPtr(), Ed25519Re::VERIFY));
+  thr->message_loop()->PostTask(base::Bind(base::Unretained(Ed25519Helper::GetInstance()),
+    &Ed25519Helper::Verify, data, req));
+  thr->IncComputational();
+  RETURN_TRUE
+}
+
 void Terminate(const v8::FunctionCallbackInfo<v8::Value>& args) {
   RcibHelper::GetInstance()->Terminate();
 }
@@ -238,6 +325,9 @@ inline void NODE_CREATE_FUNCTION(const TypeName& target) {
     NODE_SET_PROTOTYPE_METHOD(t, "quen", QueueNum);
     NODE_SET_PROTOTYPE_METHOD(t, "sha2", Sha2);
     NODE_SET_PROTOTYPE_METHOD(t, "hmac", Hmac);
+    NODE_SET_PROTOTYPE_METHOD(t, "makeKeypair", MakeKeypair);
+    NODE_SET_PROTOTYPE_METHOD(t, "sign", Sign);
+    NODE_SET_PROTOTYPE_METHOD(t, "verify", Verify);
 
     target->Set(v8::String::NewFromUtf8(isolate, "THREAD")
       , t->GetFunction());

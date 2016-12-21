@@ -4,6 +4,7 @@
 
 #include "rcib_object.h"
 #include "hash/hash.h"
+#include "ed25519/ed25519.h"
 
 #define ONE ((char*)1)
 #define TWO ((char *)2)
@@ -64,6 +65,21 @@ namespace rcib {
           argv[1] = node::Encode(isolate, reinterpret_cast<char *>(hre->_data), hre->_len, hre->_encoding);
           assert(hre->_fclean);
           (*(hre->_fclean))(hre->_data, hre->_thr);
+          delete hre;
+          req->out = nullptr;  // should be set null
+        }
+        break;
+      case TYPE_ED25519:{
+          argv[0] = v8::Null(isolate);
+          argc = 2;
+          Ed25519Re *hre = reinterpret_cast<Ed25519Re *>(req->out);
+          if (hre->_type == Ed25519Re::SIGN){
+            argv[1] = node::Encode(isolate, reinterpret_cast<char *>(hre->data), 64, node::encoding::BUFFER);
+          }
+          else {
+            argv[1] = v8::Boolean::New(isolate, req->result);
+          }
+          hre->Dec();
           delete hre;
           req->out = nullptr;  // should be set null
         }

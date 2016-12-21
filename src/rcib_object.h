@@ -52,6 +52,8 @@ namespace rcib {
     TYPE_START = 0,
     TYPE_SHA_256,
     TYPE_SHA = TYPE_SHA_256,
+    TYPE_ED25519,
+    //...
     TYPE_END
   };
 

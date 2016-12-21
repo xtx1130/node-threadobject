@@ -1,6 +1,6 @@
 {
   "name": "node-threadobject",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "homepage": "https://github.com/classfellow/node-threadobject",
   "description": "let node support multi threads in js codes",
   "license": "BSD",
@@ -25,15 +25,15 @@
     "cpu-intensive",
     "cpu-bound task",
     "multi-thread",
-    "HASH",
-    "SHA",
-    "HMAC",
-    "Block chain",
-    "node",
-    "nodejs",
-    "libuv",
-    "c++",
-    "closure",
+    "Hash",
+    "Sha",
+    "hmac",
+    "Ed25519",
+    "elliptic",
+    "curve25519",
+    "EdDSA",
+    "crypto",
+    "Block Chain",
     "c++ closure"
   ],
   "author": {
@@ -45,6 +45,9 @@
       "name": "YouJia",
       "nickname": "Banz",
       "email": "classfellow@qq.com"
+    },
+    {
+      "name": "Dave Akers"
     }
   ],
   "gypfile": true,

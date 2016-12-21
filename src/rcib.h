@@ -13,6 +13,9 @@
 #define TYPEERROR isolate->ThrowException(v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, "param error"))); \
   return; \
 
+#define TYPEERROR2(E) isolate->ThrowException(v8::Exception::TypeError(v8::String::NewFromUtf8(isolate, ("Error: "#E)))); \
+  return; \
+
 #define INITHELPER(V,I)  v8::Local<v8::Function> callback = v8::Local<v8::Function>::Cast((V)[(I)]);  \
   async_req* req = new async_req; \
   RcibHelper::init_async_req(req);  \
