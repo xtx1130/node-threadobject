@@ -196,8 +196,10 @@ fs.readFile('./mem-pressure-test', function(err, data){
 > After 30 mins of running, mem usage maintained at 12M.
 
 ## Push list
+```
 0.5.4 -> fixed compile errors for node v7
 0.5.5 -> add ed25519 | fix maintain buffer
+```
 
 ## 已包含的方法 (APIs)
 ```
