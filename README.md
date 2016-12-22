@@ -147,7 +147,7 @@ result:
 */
 ```
 
-**Ed25519签名(Ed25519)**
+**Ed25519签名(EdDSA)**
 ```js
 /*
 see test/ed25519.js
