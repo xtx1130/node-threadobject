@@ -197,7 +197,7 @@ fs.readFile('./mem-pressure-test', function(err, data){
 
 ## Push list
 0.5.4 -> fixed compile errors for node v7
-0.5.5 -> add ed25519
+0.5.5 -> add ed25519 | fix maintain buffer
 
 ## 已包含的方法 (APIs)
 ```
@@ -216,7 +216,6 @@ numOfTasks  //线程队列里CPU密集型任务个数
 makeKeypair // 使用 Ed25519 生成密钥对
 Sign // 使用 Ed25519 签名 Ed25519-DSA
 Verify // 验证
-
 ```
 
 ## Other example
